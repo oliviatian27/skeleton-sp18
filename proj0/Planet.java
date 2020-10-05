@@ -77,10 +77,3 @@ public class Planet {
          StdDraw.picture(this.xxPos, this.yyPos, "images/"+this.imgFileName);
     }
 }
-
-public int size() {
-    if(L.rest==null){
-        return 1
-    }
-    return L.rest.size()+1
-}
