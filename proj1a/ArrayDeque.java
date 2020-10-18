@@ -7,8 +7,8 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        nextFirst = 0;
-        nextLast = 0;
+        nextFirst = 4;
+        nextLast = 5;
     }
 
     private int minusOne(int nextFirst){
@@ -98,5 +98,11 @@ public class ArrayDeque<T> {
             this.resizeHelper(items.length*2);
         }
     }
-    
+
+//    public static void main(String[] args) {
+//        ArrayDeque<Integer> arr1 = new ArrayDeque<Integer>();
+//        arr1.addLast(19);
+//        arr1.addLast(20);
+//        System.out.print(arr1.get(0));
+//    }
 }
