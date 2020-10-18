@@ -2,12 +2,12 @@ public class LinkedListDeque<T> {
     private final TNode sentinel;
     private int size;
 
-    public class TNode {
+    private class TNode {
         private final T item;
         private TNode prev;
         private TNode next;
 
-        public TNode(T i, TNode p, TNode n) {
+        private TNode(T i, TNode p, TNode n) {
             item = i;
             prev = p;
             next = n;
@@ -91,7 +91,7 @@ public class LinkedListDeque<T> {
         return node.item;
     }
 
-    public T getRecursiveHelper(TNode node, int index) {
+    private T getRecursiveHelper(TNode node, int index) {
         if (index == 0) {
             return node.item;
         }

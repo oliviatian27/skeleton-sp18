@@ -1,28 +1,39 @@
 public class ArrayDeque<T> {
     private T[] items;
     private int size;
-    private int front;
-    private int back;
+    private int nextFirst;
+    private int nextLast;
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
-        front = 0;
-        back = 0;
+        nextFirst = 0;
+        nextLast = 0;
+    }
+
+    private int minusOne(int nextFirst){
+        if(nextFirst==0){
+            return items.length-1;
+        }else{
+            return nextFirst-1;
+        }
     }
 
     public void addFirst(T item) {
-        items[items.length - 1 - back] = item;
+        items[nextFirst] = item;
         size++;
-        back++;
+        nextFirst=minusOne(nextFirst);
         this.resize();
     }
 
+    private int plusOne(int nextLast){
+        return (nextLast+1)% items.length;
+    }
+
     public void addLast(T item) {
-        items[front] = item;
+        items[nextLast] = item;
         size++;
-        front++;
-        System.out.println(size);
+        nextLast=plusOne(nextLast);
         this.resize();
     }
 
@@ -35,98 +46,57 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        int backIdx = back;
-        while (backIdx > 0) {
-            System.out.print(items[items.length - backIdx]);
-            System.out.print(" ");
-            backIdx--;
-        }
-        int frontIdx = 0;
-        while (frontIdx < front) {
-            System.out.print(items[frontIdx]);
-            System.out.print(" ");
-            frontIdx++;
-        }
+       int i=0;
+       while(i<size){
+           System.out.print(get(i));
+           System.out.print(" ");
+           i++;
+       }
     }
 
     public T removeFirst() {
-        back--;
+        nextFirst=plusOne(nextFirst);
+        T f =items[nextFirst];
+        items[nextFirst]=null;
         size--;
         this.resize();
-        return items[items.length - back - 1];
+        return f;
     }
 
     public T removeLast() {
-        front--;
+        nextLast=plusOne(nextLast);
+        T l=items[nextLast];
+        items[nextLast]=null;
         size--;
         this.resize();
-        return items[front + 1];
+        return l;
     }
 
     public T get(int index) {
-        if (index >= size) {
+        if (size==0) {
             return null;
         }
-        return items[index - back];
+        return items[(index+plusOne(nextFirst))% items.length];
     }
 
-    public void reduceSize() {
-        T[] a = (T[]) new Object[items.length / 2];
-        for (int i = back; i >= 0; i--) {
-            a[a.length - i] = items[items.length - i];
-        }
-        for (int i = 0; i < front; i++) {
-            a[i] = items[i];
+
+    private void resizeHelper(int newLen) {
+        T[] a = (T[]) new Object[newLen];
+        for (int i = 0; i <size ; i++) {
+            a[i] = get(i);
         }
         items = a;
+        nextFirst= items.length-1;
+        nextLast=size;
     }
 
-    public void increaseSize() {
-        T[] a = (T[]) new Object[items.length * 2];
-        for (int i = back; i > 0; i--) {
-            a[a.length - i] = items[items.length - i];
+    private void resize() {
+        if (items.length >= 16 && size < (items.length / 4)) {
+            this.resizeHelper(items.length/2);
         }
-        for (int i = 0; i < front; i++) {
-            a[i] = items[i];
-        }
-        items = a;
-    }
-
-    public void resize() {
-        if (items.length >= 16 && size < items.length / 4) {
-            this.reduceSize();
-        }
-        if (size == items.length / 2) {
-            this.increaseSize();
+        if (size == items.length ) {
+            this.resizeHelper(items.length*2);
         }
     }
-
-    public static void main(String[] args) {
-        ArrayDeque<Integer> arr1 = new ArrayDeque<Integer>();
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.addFirst(1);
-        arr1.addLast(19);
-        arr1.addFirst(3);
-        arr1.addLast(23);
-        arr1.printDeque();
-    }
+    
 }
