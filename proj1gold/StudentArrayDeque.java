@@ -3,7 +3,7 @@ public class StudentArrayDeque<T> {
     private int b = 8;
     private int c = 0;
     private int d = 4;
-    private int e = 4;
+    private int e = 4;// head
     private int f = 5;
     private boolean g = false;
     private boolean h = false;
