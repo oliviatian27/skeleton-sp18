@@ -11,7 +11,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     private int last;
     /* Array for storing the buffer data. */
     private T[] rb;
-
+    private boolean flag;
     /**
      * Create a new ArrayRingBuffer with the given capacity.
      */
@@ -64,8 +64,8 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
-        if (first == last) {
-
+        if(isEmpty()){
+            throw new RuntimeException("empty");
         }
         T t = rb[first];
 
@@ -77,15 +77,23 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         return new ARBIterator();
     }
 
-    private class ARBIterator implements Iterator<T>{
+    public class ARBIterator implements Iterator<T>{
+        private int start = 0;
+        int getIndex() {
+            return (first + start) % capacity();
+        }
         @Override
         public boolean hasNext() {
-            return !isEmpty();
+            if (start >= fillCount) {
+                return false;
+            }
+            return true;
         }
 
         @Override
         public T next() {
-            T item =dequeue();
+            T item = rb[this.getIndex()];
+            start++;
             return item;
         }
     }
