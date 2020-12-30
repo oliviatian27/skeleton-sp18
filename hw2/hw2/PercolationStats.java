@@ -6,8 +6,8 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     private final int T;
     private final int N;
-    private final double[] threshold;
-    private final Percolation p;
+    private double[] threshold;
+    private Percolation p;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
