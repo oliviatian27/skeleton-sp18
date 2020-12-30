@@ -16,9 +16,9 @@ public class PercolationStats {
         this.N = N;
         this.T = T;
         this.threshold = new double[T];
-        p = pf.make(N);
 
         for (int i = 0; i < T; i++) {
+            p = pf.make(N);
             while (!p.percolates()) {
                 int r = StdRandom.uniform(0, N);
                 int c = StdRandom.uniform(0, N);
