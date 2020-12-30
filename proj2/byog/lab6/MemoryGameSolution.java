@@ -1,4 +1,4 @@
-package byog.lab6;
+//package byog.lab6;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -23,6 +23,7 @@ public class MemoryGameSolution {
             System.out.println("Please enter a seed");
             return;
         }
+        MemoryGame m= new MemoryGame()
 
         long seed = Long.parseLong(args[0]);
         MemoryGameSolution game = new MemoryGameSolution(40, 40, seed);

@@ -1,7 +1,8 @@
-package byog.Core;
+//package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -9,10 +10,22 @@ public class Game {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
 
+    public Game(){
+        ter.initialize(WIDTH, HEIGHT);
+        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        for (int x = 0; x < WIDTH; x += 1) {
+            for (int y = 0; y < HEIGHT; y += 1) {
+                world[x][y] = Tileset.NOTHING;
+            }
+        }
+        ter.renderFrame(world);
+    }
+
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
+        System.out.println('a');
     }
 
     /**
@@ -32,7 +45,21 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
+        input=input.toLowerCase();
+        long seed=getSeed(input);
+        System.out.println(seed);
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
+    }
+
+    public long getSeed(String input){
+        int j=0;
+        for(int i=1;i<input.length();i++ ){
+            if(!Character.isDigit(input.charAt(i))){
+               j=i;
+               break;
+            }
+        }
+        return Long.parseLong(input.substring(1,j));
     }
 }
